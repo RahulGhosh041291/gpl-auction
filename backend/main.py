@@ -32,7 +32,8 @@ app = FastAPI(
 )
 
 # CORS Configuration
-origins = os.getenv("CORS_ORIGINS", "http://localhost:3000").split(",")
+# origins = os.getenv("CORS_ORIGINS", "http://localhost:3000").split(",")
+origins = ["http://localhost:3000", "https://gpl-season-2.netlify.app"]
 
 app.add_middleware(
     CORSMiddleware,
