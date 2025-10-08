@@ -12,5 +12,6 @@ cricheroes==1.0.10
 razorpay==1.4.2
 websockets==13.1
 aiofiles==24.1.0
-pandas==2.1.4
+pandas>=2.2.0
 openpyxl==3.1.2
+psycopg2-binary==2.9.9
