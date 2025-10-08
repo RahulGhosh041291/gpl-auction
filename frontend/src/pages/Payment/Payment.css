@@ -1,0 +1,157 @@
+.payment-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 20px 60px;
+}
+
+.payment-container {
+  max-width: 600px;
+  width: 100%;
+  background: rgba(30, 41, 59, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 60px 48px;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.success-icon {
+  font-size: 100px;
+  color: #10b981;
+  margin-bottom: 24px;
+  filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.4));
+}
+
+.cancel-icon {
+  font-size: 100px;
+  color: #ef4444;
+  margin-bottom: 24px;
+  filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.4));
+}
+
+.payment-container h1 {
+  font-size: 36px;
+  font-weight: 800;
+  color: #f1f5f9;
+  margin-bottom: 12px;
+}
+
+.payment-container > p {
+  font-size: 18px;
+  color: #cbd5e1;
+  margin-bottom: 32px;
+}
+
+.payment-details {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 32px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-item span {
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.detail-item strong {
+  color: #f1f5f9;
+  font-size: 18px;
+}
+
+.status-paid {
+  color: #10b981;
+}
+
+.next-steps {
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 32px;
+  text-align: left;
+}
+
+.next-steps h3 {
+  color: #f1f5f9;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.next-steps ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.next-steps li {
+  color: #cbd5e1;
+  font-size: 15px;
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cancel-message {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 32px;
+}
+
+.cancel-message p {
+  color: #cbd5e1;
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.cancel-message p:last-child {
+  margin-bottom: 0;
+}
+
+.payment-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.payment-actions .btn {
+  width: 100%;
+  justify-content: center;
+  padding: 14px 24px;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .payment-container {
+    padding: 40px 24px;
+  }
+
+  .payment-container h1 {
+    font-size: 28px;
+  }
+
+  .success-icon,
+  .cancel-icon {
+    font-size: 80px;
+  }
+}

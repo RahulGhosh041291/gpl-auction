@@ -1,0 +1,84 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+ENV/
+env/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+backend/gpl_auction.db
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+.nyc_output
+
+# Production
+/build
+/frontend/build
+
+# Misc
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+.loadpath
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+tmp/
+temp/
+keys
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
