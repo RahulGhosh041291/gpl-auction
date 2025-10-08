@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaUser, FaCheckCircle, FaTimesCircle, FaFilter, FaEdit, FaTrash, FaDownload } from 'react-icons/fa';
-import { playersAPI } from '../../services/api';
+import { playersAPI, API_URL } from '../../services/api';
 import axios from 'axios';
 import './Players.css';
 
@@ -155,7 +155,7 @@ const Players = () => {
       }
       
       await axios.put(
-        `http://localhost:8000/api/players/${editingPlayer.id}`,
+        `${API_URL}/players/${editingPlayer.id}`,
         updateData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -179,7 +179,7 @@ const Players = () => {
 
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`http://localhost:8000/api/players/${playerId}/mark-available`, {}, {
+      await axios.post(`${API_URL}/players/${playerId}/mark-available`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       alert('Player marked as available for auction');
@@ -200,7 +200,7 @@ const Players = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post(`http://localhost:8000/api/players/${playerId}/mark-unsold`, {}, {
+      const response = await axios.post(`${API_URL}/players/${playerId}/mark-unsold`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       alert(response.data.message);
@@ -223,7 +223,7 @@ const Players = () => {
       console.log('Starting Excel download...');
       console.log('Token:', token ? 'Present' : 'Missing');
       
-      const response = await axios.get('http://localhost:8000/api/players/export/excel', {
+      const response = await axios.get(`${API_URL}/players/export/excel`, {
         headers: { Authorization: `Bearer ${token}` },
         responseType: 'blob' // Important for file download
       });

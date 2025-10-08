@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaUsers, FaMoneyBillWave, FaTrophy, FaEdit } from 'react-icons/fa';
-import { teamsAPI } from '../../services/api';
+import { teamsAPI, API_URL } from '../../services/api';
 import axios from 'axios';
 import './Teams.css';
 
@@ -97,7 +97,7 @@ const Teams = () => {
       }
       
       await axios.put(
-        `http://localhost:8000/api/teams/${editingTeam.id}`,
+        `${API_URL}/teams/${editingTeam.id}`,
         updateData,
         { headers: { Authorization: `Bearer ${token}` } }
       );

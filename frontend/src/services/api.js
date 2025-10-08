@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
+// Remove /api suffix if it's already in the environment variable
+const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+const API_URL = API_BASE.endsWith('/api') ? API_BASE : `${API_BASE}/api`;
 
 const api = axios.create({
   baseURL: API_URL,
@@ -74,4 +76,6 @@ export const paymentsAPI = {
   getPlayerPaymentStatus: (playerId) => api.get(`/payments/${playerId}/player-status`),
 };
 
+// Export API_URL for use in other components
+export { API_URL };
 export default api;
