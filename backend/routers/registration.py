@@ -7,23 +7,62 @@ import schemas
 
 router = APIRouter()
 
-# Try to import cricheroes, but don't fail if not available
+# Try to import required packages for web scraping
 try:
-    import cricheroes
-    CRICHEROES_AVAILABLE = True
+    import requests
+    from bs4 import BeautifulSoup
+    import re
+    SCRAPING_AVAILABLE = True
 except ImportError:
-    CRICHEROES_AVAILABLE = False
-    print("Warning: cricheroes package not available. Player data fetching will be limited.")
+    SCRAPING_AVAILABLE = False
+    print("Warning: Web scraping packages not available. Player data fetching will be limited.")
 
 async def fetch_cricheroes_data(cricheroes_id: str):
-    """Fetch player data from Cricheroes API"""
-    if not CRICHEROES_AVAILABLE:
+    """
+    Fetch player data from CricHeroes profile
+    
+    Args:
+        cricheroes_id: Can be either:
+            - Full profile URL: https://cricheroes.in/player-profile/12345/player-name
+            - Profile ID: 12345
+            - Profile path: 12345/player-name
+    
+    Returns:
+        dict: Player statistics or None if fetch fails
+    """
+    if not SCRAPING_AVAILABLE:
+        print("Warning: Web scraping not available")
         return None
     
     try:
-        # This is a placeholder - actual implementation depends on cricheroes API
-        # The cricheroes package might have different methods
-        # You'll need to check the actual package documentation
+        # Parse the cricheroes_id to get the profile URL
+        if cricheroes_id.startswith('http'):
+            profile_url = cricheroes_id
+        elif '/' in cricheroes_id:
+            # Format: 12345/player-name
+            profile_url = f"https://cricheroes.in/player-profile/{cricheroes_id}"
+        else:
+            # Just the ID, need to construct URL (may not work without player name)
+            profile_url = f"https://cricheroes.in/player-profile/{cricheroes_id}/"
+        
+        print(f"Fetching CricHeroes data from: {profile_url}")
+        
+        # Set headers to mimic a browser request
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Connection': 'keep-alive',
+        }
+        
+        # Fetch the profile page
+        response = requests.get(profile_url, headers=headers, timeout=10)
+        response.raise_for_status()
+        
+        # Parse HTML
+        soup = BeautifulSoup(response.content, 'html.parser')
+        
+        # Initialize player data dictionary
         player_data = {
             "matches_played": 0,
             "runs_scored": 0,
@@ -31,12 +70,83 @@ async def fetch_cricheroes_data(cricheroes_id: str):
             "batting_average": 0.0,
             "bowling_average": 0.0,
             "strike_rate": 0.0,
-            "batting_style": "Right-hand bat",
-            "bowling_style": "Right-arm fast"
+            "batting_style": None,
+            "bowling_style": None
         }
-        return player_data
+        
+        # Try to extract statistics from the page
+        # Note: This is based on typical CricHeroes page structure
+        # The actual selectors may need adjustment based on the current site structure
+        
+        # Look for stats in various possible locations
+        stats_divs = soup.find_all('div', class_=re.compile(r'stat|statistic|career', re.I))
+        
+        for stat_div in stats_divs:
+            text = stat_div.get_text().lower()
+            
+            # Extract matches played
+            if 'match' in text and ('played' in text or 'mat' in text):
+                numbers = re.findall(r'\d+', text)
+                if numbers:
+                    player_data["matches_played"] = int(numbers[0])
+            
+            # Extract runs
+            if 'run' in text and 'scored' not in text.split('run')[0][-10:]:
+                numbers = re.findall(r'\d+', text)
+                if numbers:
+                    player_data["runs_scored"] = int(numbers[0])
+            
+            # Extract wickets
+            if 'wicket' in text or 'wkt' in text:
+                numbers = re.findall(r'\d+', text)
+                if numbers:
+                    player_data["wickets_taken"] = int(numbers[0])
+            
+            # Extract batting average
+            if 'batting' in text and 'avg' in text or 'batting' in text and 'average' in text:
+                numbers = re.findall(r'\d+\.?\d*', text)
+                if numbers:
+                    player_data["batting_average"] = float(numbers[0])
+            
+            # Extract strike rate
+            if 'strike' in text and 'rate' in text:
+                numbers = re.findall(r'\d+\.?\d*', text)
+                if numbers:
+                    player_data["strike_rate"] = float(numbers[0])
+            
+            # Extract bowling average
+            if 'bowling' in text and ('avg' in text or 'average' in text):
+                numbers = re.findall(r'\d+\.?\d*', text)
+                if numbers:
+                    player_data["bowling_average"] = float(numbers[0])
+        
+        # Try to extract batting and bowling style
+        style_divs = soup.find_all(['div', 'span', 'p'], class_=re.compile(r'style|info', re.I))
+        for style_div in style_divs:
+            text = style_div.get_text()
+            
+            if 'batting' in text.lower() and any(x in text.lower() for x in ['right', 'left', 'hand']):
+                player_data["batting_style"] = text.strip()
+            
+            if 'bowling' in text.lower() and any(x in text.lower() for x in ['right', 'left', 'arm', 'spin', 'fast']):
+                player_data["bowling_style"] = text.strip()
+        
+        # Check if we got any meaningful data
+        if player_data["matches_played"] > 0 or player_data["runs_scored"] > 0 or player_data["wickets_taken"] > 0:
+            print(f"Successfully fetched CricHeroes data: {player_data}")
+            return player_data
+        else:
+            print("Could not extract player statistics from CricHeroes profile")
+            print("Page title:", soup.title.string if soup.title else "No title")
+            return None
+            
+    except requests.RequestException as e:
+        print(f"Error fetching CricHeroes data (network error): {e}")
+        return None
     except Exception as e:
-        print(f"Error fetching Cricheroes data: {e}")
+        print(f"Error parsing CricHeroes data: {e}")
+        import traceback
+        traceback.print_exc()
         return None
 
 @router.post("/register", response_model=schemas.Player)
@@ -119,7 +229,7 @@ async def check_email_availability(email: str, db: Session = Depends(get_db)):
 @router.get("/check-cricheroes/{cricheroes_id}")
 async def check_cricheroes_data(cricheroes_id: str):
     """Check if Cricheroes data is available for a player ID"""
-    if not CRICHEROES_AVAILABLE:
+    if not SCRAPING_AVAILABLE:
         return {
             "available": False,
             "message": "Cricheroes integration not available"
