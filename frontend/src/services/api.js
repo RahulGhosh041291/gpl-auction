@@ -87,6 +87,13 @@ export const ownerRegistrationAPI = {
   delete: (id) => api.delete(`/owner-registrations/${id}`),
 };
 
+// Auth API
+export const authAPI = {
+  login: (credentials) => api.post('/auth/login', credentials),
+  getMe: () => api.get('/auth/me'),
+  updatePassword: (passwordData) => api.put('/auth/update-password', passwordData),
+};
+
 // Export API_URL for use in other components
 export { API_URL };
 export default api;

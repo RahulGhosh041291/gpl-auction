@@ -69,6 +69,15 @@ const Navbar = () => {
 
           {isLoggedIn ? (
             <div className="navbar-user-section">
+              <Link
+                to="/profile"
+                className={`navbar-item ${location.pathname === '/profile' ? 'active' : ''}`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {userRole === 'admin' && <FaUserShield className="role-icon" />}
+                {userRole !== 'admin' && <FaUserShield />}
+                <span>Profile</span>
+              </Link>
               <span className="navbar-user-info">
                 {userRole === 'admin' && <FaUserShield className="role-icon" />}
                 <span className="username">{username}</span>

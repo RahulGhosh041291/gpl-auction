@@ -30,6 +30,16 @@ class UserResponse(BaseModel):
     class Config:
         from_attributes = True
 
+class PasswordUpdate(BaseModel):
+    current_password: str
+    new_password: str
+    
+    @field_validator('new_password')
+    def validate_password(cls, v):
+        if len(v) < 6:
+            raise ValueError('Password must be at least 6 characters long')
+        return v
+
 # Team Schemas
 class TeamBase(BaseModel):
     name: str
