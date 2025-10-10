@@ -209,11 +209,11 @@ const OwnerRegistration = () => {
 
           {/* Co-Owner Details */}
           <div className="form-section">
-            <h3><FaUsers className="section-icon" /> Co-Owner Details</h3>
+            <h3><FaUsers className="section-icon" /> Co-Owner Details (Optional)</h3>
             
             <div className="form-group">
               <label htmlFor="co_owner_full_name">
-                Full Name <span className="required">*</span>
+                Full Name
               </label>
               <input
                 type="text"
@@ -221,22 +221,20 @@ const OwnerRegistration = () => {
                 name="co_owner_full_name"
                 value={formData.co_owner_full_name}
                 onChange={handleChange}
-                required
-                placeholder="Enter co-owner's full name"
+                placeholder="Enter co-owner's full name (optional)"
               />
             </div>
 
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="co_owner_block">
-                  <FaBuilding className="inline-icon" /> Residential Block <span className="required">*</span>
+                  <FaBuilding className="inline-icon" /> Residential Block
                 </label>
                 <select
                   id="co_owner_block"
                   name="co_owner_block"
                   value={formData.co_owner_block}
                   onChange={handleChange}
-                  required
                 >
                   <option value="">Select Block</option>
                   {blocks.map(block => (
@@ -247,7 +245,7 @@ const OwnerRegistration = () => {
 
               <div className="form-group">
                 <label htmlFor="co_owner_unit_number">
-                  <FaHome className="inline-icon" /> Unit Number <span className="required">*</span>
+                  <FaHome className="inline-icon" /> Unit Number
                 </label>
                 <input
                   type="text"
@@ -255,8 +253,7 @@ const OwnerRegistration = () => {
                   name="co_owner_unit_number"
                   value={formData.co_owner_unit_number}
                   onChange={handleChange}
-                  required
-                  placeholder="e.g., 202"
+                  placeholder="e.g., 202 (optional)"
                 />
               </div>
             </div>

@@ -223,11 +223,11 @@ class OwnerRegistration(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     owner_full_name = Column(String, nullable=False)
-    co_owner_full_name = Column(String, nullable=False)
+    co_owner_full_name = Column(String, nullable=True)
     owner_block = Column(Enum(BlockName), nullable=False)
     owner_unit_number = Column(String, nullable=False)
-    co_owner_block = Column(Enum(BlockName), nullable=False)
-    co_owner_unit_number = Column(String, nullable=False)
+    co_owner_block = Column(Enum(BlockName), nullable=True)
+    co_owner_unit_number = Column(String, nullable=True)
     interested_to_buy = Column(Boolean, nullable=False, default=False)
     team_price = Column(Float, default=15000.0)
     

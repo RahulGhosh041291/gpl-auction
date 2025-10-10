@@ -107,11 +107,11 @@ async def export_owner_registrations_excel(db: Session = Depends(get_db)):
         ws.append([
             reg.id,
             reg.owner_full_name,
-            reg.owner_block.value,
+            reg.owner_block.value if reg.owner_block else "",
             reg.owner_unit_number,
-            reg.co_owner_full_name,
-            reg.co_owner_block.value,
-            reg.co_owner_unit_number,
+            reg.co_owner_full_name if reg.co_owner_full_name else "N/A",
+            reg.co_owner_block.value if reg.co_owner_block else "N/A",
+            reg.co_owner_unit_number if reg.co_owner_unit_number else "N/A",
             "Yes" if reg.interested_to_buy else "No",
             f"₹{reg.team_price:,.0f}",
             reg.created_at.strftime("%d-%b-%Y %I:%M %p")

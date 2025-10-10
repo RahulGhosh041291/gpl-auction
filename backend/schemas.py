@@ -299,21 +299,21 @@ class BidMessage(BaseModel):
 # Owner Registration Schemas
 class OwnerRegistrationCreate(BaseModel):
     owner_full_name: str
-    co_owner_full_name: str
+    co_owner_full_name: Optional[str] = None
     owner_block: BlockName
     owner_unit_number: str
-    co_owner_block: BlockName
-    co_owner_unit_number: str
+    co_owner_block: Optional[BlockName] = None
+    co_owner_unit_number: Optional[str] = None
     interested_to_buy: bool
 
 class OwnerRegistrationResponse(BaseModel):
     id: int
     owner_full_name: str
-    co_owner_full_name: str
+    co_owner_full_name: Optional[str] = None
     owner_block: BlockName
     owner_unit_number: str
-    co_owner_block: BlockName
-    co_owner_unit_number: str
+    co_owner_block: Optional[BlockName] = None
+    co_owner_unit_number: Optional[str] = None
     interested_to_buy: bool
     team_price: float
     created_at: datetime
