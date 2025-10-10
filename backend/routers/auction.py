@@ -139,8 +139,8 @@ async def start_auction(db: Session = Depends(get_db), current_user: User = Depe
     return {"message": "Auction started", "auction_id": auction.id}
 
 @router.post("/bid")
-async def place_bid(bid: schemas.BidCreate, db: Session = Depends(get_db)):
-    """Place a bid on the current player"""
+async def place_bid(bid: schemas.BidCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_admin_user)):
+    """Place a bid on the current player (Admin only)"""
     # Get current auction
     auction = db.query(AuctionModel).filter(
         AuctionModel.status == AuctionStatus.IN_PROGRESS
@@ -210,8 +210,8 @@ async def place_bid(bid: schemas.BidCreate, db: Session = Depends(get_db)):
     return {"message": "Bid placed successfully", "bid_id": db_bid.id}
 
 @router.post("/sold")
-async def mark_player_sold(db: Session = Depends(get_db)):
-    """Mark current player as sold and move to next player"""
+async def mark_player_sold(db: Session = Depends(get_db), current_user: User = Depends(get_current_admin_user)):
+    """Mark current player as sold and move to next player (Admin only)"""
     auction = db.query(AuctionModel).filter(
         AuctionModel.status == AuctionStatus.IN_PROGRESS
     ).first()

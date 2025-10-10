@@ -174,6 +174,12 @@ const LiveAuction = () => {
       return;
     }
 
+    if (userRole === 'generic_user') {
+      setError('You do not have permission to place bids');
+      alert('Only admin users can place bids. Please contact an administrator.');
+      return;
+    }
+
     if (!selectedTeam) {
       setError('Please select a team');
       return;
@@ -197,6 +203,11 @@ const LiveAuction = () => {
       return;
     }
 
+    if (userRole === 'generic_user') {
+      alert('Only admin users can mark players as sold. Please contact an administrator.');
+      return;
+    }
+
     try {
       await auctionAPI.markSold();
       setError('');
@@ -208,6 +219,11 @@ const LiveAuction = () => {
   const markUnsold = async () => {
     if (!isAuthenticated) {
       alert('You must be logged in to mark players as unsold. Please login first.');
+      return;
+    }
+
+    if (userRole === 'generic_user') {
+      alert('Only admin users can mark players as unsold. Please contact an administrator.');
       return;
     }
 
@@ -541,8 +557,8 @@ const LiveAuction = () => {
                 <button
                   onClick={placeBid}
                   className="btn btn-primary btn-large"
-                  disabled={!isAuthenticated || !selectedTeam || !currentPlayer}
-                  title={!isAuthenticated ? "Please login to place bids" : ""}
+                  disabled={!isAuthenticated || userRole === 'generic_user' || !selectedTeam || !currentPlayer}
+                  title={!isAuthenticated ? "Please login to place bids" : userRole === 'generic_user' ? "Admin only" : ""}
                 >
                   <FaGavel /> Place Bid
                 </button>
@@ -552,16 +568,16 @@ const LiveAuction = () => {
                 <button 
                   onClick={markSold} 
                   className="btn btn-success"
-                  disabled={!isAuthenticated}
-                  title={!isAuthenticated ? "Please login to mark as sold" : ""}
+                  disabled={!isAuthenticated || userRole === 'generic_user'}
+                  title={!isAuthenticated ? "Please login to mark as sold" : userRole === 'generic_user' ? "Admin only" : ""}
                 >
                   <FaCheckCircle /> Mark Sold
                 </button>
                 <button 
                   onClick={markUnsold} 
                   className="btn btn-danger"
-                  disabled={!isAuthenticated}
-                  title={!isAuthenticated ? "Please login to mark as unsold" : ""}
+                  disabled={!isAuthenticated || userRole === 'generic_user'}
+                  title={!isAuthenticated ? "Please login to mark as unsold" : userRole === 'generic_user' ? "Admin only" : ""}
                 >
                   <FaTimesCircle /> Mark Unsold
                 </button>
