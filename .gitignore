@@ -77,6 +77,15 @@ tmp/
 temp/
 keys
 
+# SSH Keys (prevent accidental commits)
+*.pub
+rahul
+rahul.pub
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+
 # IDE
 .vscode/
 .idea/
