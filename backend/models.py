@@ -217,3 +217,19 @@ class Payment(Base):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
     player = relationship("Player", back_populates="payment")
+
+class OwnerRegistration(Base):
+    __tablename__ = "owner_registrations"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    owner_full_name = Column(String, nullable=False)
+    co_owner_full_name = Column(String, nullable=False)
+    owner_block = Column(Enum(BlockName), nullable=False)
+    owner_unit_number = Column(String, nullable=False)
+    co_owner_block = Column(Enum(BlockName), nullable=False)
+    co_owner_unit_number = Column(String, nullable=False)
+    interested_to_buy = Column(Boolean, nullable=False, default=False)
+    team_price = Column(Float, default=15000.0)
+    
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

@@ -76,6 +76,17 @@ export const paymentsAPI = {
   getPlayerPaymentStatus: (playerId) => api.get(`/payments/${playerId}/player-status`),
 };
 
+// Owner Registration API
+export const ownerRegistrationAPI = {
+  register: (data) => api.post('/owner-registrations/', data),
+  getAll: () => api.get('/owner-registrations/'),
+  getById: (id) => api.get(`/owner-registrations/${id}`),
+  exportExcel: () => api.get('/owner-registrations/export/excel', { 
+    responseType: 'blob' 
+  }),
+  delete: (id) => api.delete(`/owner-registrations/${id}`),
+};
+
 // Export API_URL for use in other components
 export { API_URL };
 export default api;

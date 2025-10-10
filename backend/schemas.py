@@ -285,3 +285,28 @@ class BidMessage(BaseModel):
     player_id: int
     player_name: str
     timestamp: datetime
+
+# Owner Registration Schemas
+class OwnerRegistrationCreate(BaseModel):
+    owner_full_name: str
+    co_owner_full_name: str
+    owner_block: BlockName
+    owner_unit_number: str
+    co_owner_block: BlockName
+    co_owner_unit_number: str
+    interested_to_buy: bool
+
+class OwnerRegistrationResponse(BaseModel):
+    id: int
+    owner_full_name: str
+    co_owner_full_name: str
+    owner_block: BlockName
+    owner_unit_number: str
+    co_owner_block: BlockName
+    co_owner_unit_number: str
+    interested_to_buy: bool
+    team_price: float
+    created_at: datetime
+    
+    class Config:
+        from_attributes = True

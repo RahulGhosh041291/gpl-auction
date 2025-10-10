@@ -5,7 +5,7 @@ import os
 from dotenv import load_dotenv
 
 from database import engine, Base, get_db
-from routers import players, teams, auction, payments, registration, auth
+from routers import players, teams, auction, payments, registration, auth, owner_registration
 
 load_dotenv()
 
@@ -50,6 +50,7 @@ app.include_router(teams.router, prefix="/api/teams", tags=["teams"])
 app.include_router(auction.router, prefix="/api/auction", tags=["auction"])
 app.include_router(payments.router, prefix="/api/payments", tags=["payments"])
 app.include_router(registration.router, prefix="/api/registration", tags=["registration"])
+app.include_router(owner_registration.router, prefix="/api", tags=["owner-registration"])
 
 @app.get("/")
 async def root():

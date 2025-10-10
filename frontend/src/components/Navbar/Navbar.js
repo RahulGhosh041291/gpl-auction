@@ -39,7 +39,8 @@ const Navbar = () => {
     { path: '/teams', label: 'Teams', icon: <FaUsers /> },
     { path: '/players', label: 'Players', icon: <FaUsers /> },
     { path: '/auction', label: 'Live Auction', icon: <FaGavel /> },
-    { path: '/registration', label: 'Register', icon: <FaUserPlus /> },
+    { path: '/registration', label: 'Player Registration', icon: <FaUserPlus /> },
+    { path: '/owner-registration', label: 'Owner Registration', icon: <FaUserShield /> },
   ];
 
   return (
