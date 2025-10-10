@@ -160,26 +160,43 @@ These are **highly valuable skills** for any backend/full-stack developer!
 
 ## 📖 How to Use the Guides
 
-### Step 1: Read the Comparison
-```bash
-# Open in VS Code
-code DEPLOYMENT_COMPARISON.md
-```
-Understand the trade-offs and make an informed decision.
+### Choose Your Deployment Strategy
 
-### Step 2: Follow the Main Guide
+**Option A: Hybrid (Recommended for You!)**
 ```bash
-# Open the deployment guide
+# Migrate only frontend to AWS, keep backend on Render
+code AWS_HYBRID_DEPLOYMENT.md
+```
+- ✅ **Best choice for your case**
+- AWS S3 + CloudFront for frontend (better CDN, 10x bandwidth)
+- Keep Render backend (zero maintenance, auto-deploy)
+- Easiest AWS learning path
+- ~30-45 minutes setup time
+
+**Option B: Full AWS Migration**
+```bash
+# Migrate everything to AWS
 code AWS_DEPLOYMENT_GUIDE.md
 ```
-Follow it step-by-step, copying commands as you go.
+- Full control over infrastructure
+- Learn EC2, RDS, S3, CloudFront
+- More complex (3-4 hours setup)
+- Best for production at scale
 
-### Step 3: Track Your Progress
+**Option C: Compare First**
 ```bash
-# Open the checklist
+# Read comparison to decide
+code DEPLOYMENT_COMPARISON.md
+```
+- Understand all trade-offs
+- Cost analysis
+- Performance comparison
+
+### Track Your Progress
+```bash
+# Use checklist (for full AWS migration only)
 code AWS_DEPLOYMENT_CHECKLIST.md
 ```
-Check off items as you complete them.
 
 ---
 
@@ -238,6 +255,16 @@ Plus, you can always:
 ---
 
 ## 📚 What's in Each Guide?
+
+### AWS_HYBRID_DEPLOYMENT.md (⭐ NEW - Recommended!)
+```
+✓ Migrate only frontend to AWS S3 + CloudFront
+✓ Keep backend on Render (simple!)
+✓ 30-45 minute setup
+✓ Best of both worlds approach
+✓ CLI commands with automation
+✓ Deployment script included
+```
 
 ### AWS_DEPLOYMENT_GUIDE.md
 ```
