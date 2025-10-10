@@ -272,7 +272,7 @@ const OwnerRegistration = () => {
                   Are you interested in purchasing a team for <strong>₹15,000 INR</strong>?
                 </p>
                 <p className="interest-subtext">
-                  This amount covers team registration, jerseys, and tournament fees for all players.
+                  This amount covers team registration and jerseys for all players.
                 </p>
               </div>
               
