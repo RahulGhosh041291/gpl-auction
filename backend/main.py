@@ -33,7 +33,7 @@ app = FastAPI(
 
 # CORS Configuration
 # origins = os.getenv("CORS_ORIGINS", "http://localhost:3000").split(",")
-origins = ["http://localhost:3000", "https://gpl-season-2.netlify.app"]
+origins = ["http://localhost:3000", "https://gpl-season-2.netlify.app", "http://gpl-auction-frontend-rahul-2025.s3-website.ap-south-1.amazonaws.com"]
 
 app.add_middleware(
     CORSMiddleware,
