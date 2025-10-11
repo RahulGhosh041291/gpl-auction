@@ -74,6 +74,8 @@ async def delete_player(
     current_user: User = Depends(get_current_admin_user)
 ):
     """Delete a player (Admin only)"""
+    from models import Auction
+    
     player = db.query(PlayerModel).filter(PlayerModel.id == player_id).first()
     if not player:
         raise HTTPException(status_code=404, detail="Player not found")
@@ -81,7 +83,14 @@ async def delete_player(
     if player.status == PlayerStatus.SOLD:
         raise HTTPException(status_code=400, detail="Cannot delete a sold player")
     
-    # Delete all bids associated with this player first
+    # Clear any auction references to this player
+    db.query(Auction).filter(Auction.current_player_id == player_id).update({
+        "current_player_id": None,
+        "current_bid_amount": None,
+        "current_bidding_team_id": None
+    })
+    
+    # Delete all bids associated with this player
     db.query(Bid).filter(Bid.player_id == player_id).delete()
     
     # Now delete the player
