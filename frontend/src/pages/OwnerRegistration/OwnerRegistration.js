@@ -53,7 +53,15 @@ const OwnerRegistration = () => {
     setSuccess(false);
 
     try {
-      await ownerRegistrationAPI.register(formData);
+      // Convert empty strings to null for optional fields
+      const submissionData = {
+        ...formData,
+        co_owner_full_name: formData.co_owner_full_name || null,
+        co_owner_block: formData.co_owner_block || null,
+        co_owner_unit_number: formData.co_owner_unit_number || null,
+      };
+      
+      await ownerRegistrationAPI.register(submissionData);
       setSuccess(true);
       setFormData({
         owner_full_name: '',
