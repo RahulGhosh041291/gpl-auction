@@ -24,17 +24,17 @@ Added a migration endpoint at `/api/admin/migrate-owner-registrations` that will
 2. Alter the `co_owner_block` column to DROP NOT NULL
 3. Alter the `co_owner_unit_number` column to DROP NOT NULL
 
-### Step 2: Wait for Render Deployment 🔄
-The code has been pushed to GitHub. Render will automatically deploy the new version with the migration endpoint (~5-10 minutes).
+### Step 2: Wait for Render Deployment ✅
+The code has been pushed to GitHub. Render automatically deployed the new version with the migration endpoint.
 
-### Step 3: Run the Migration
-Once deployed, call the migration endpoint:
+### Step 3: Run the Migration ✅
+Executed successfully at 06:06 UTC on October 11, 2025:
 
 ```bash
 curl -X POST https://gpl-auction-backend.onrender.com/api/admin/migrate-owner-registrations
 ```
 
-Expected response:
+Response:
 ```json
 {
   "status": "completed",
@@ -56,8 +56,8 @@ Expected response:
 }
 ```
 
-### Step 4: Test the Fix
-After running the migration, test the owner registration form again:
+### Step 4: Test the Fix ✅
+Tested successfully:
 
 ```bash
 curl -X POST 'https://gpl-auction-backend.onrender.com/api/owner-registrations/' \
@@ -65,7 +65,23 @@ curl -X POST 'https://gpl-auction-backend.onrender.com/api/owner-registrations/'
   -d '{"owner_full_name":"Test Owner","co_owner_full_name":null,"owner_block":"Orion","owner_unit_number":"123","co_owner_block":null,"co_owner_unit_number":null,"interested_to_buy":true}'
 ```
 
-Should return 200 OK with the registration details.
+Response (200 OK):
+```json
+{
+  "id": 8,
+  "owner_full_name": "Test Owner",
+  "co_owner_full_name": null,
+  "owner_block": "Orion",
+  "owner_unit_number": "123",
+  "co_owner_block": null,
+  "co_owner_unit_number": null,
+  "interested_to_buy": true,
+  "team_price": 15000.0,
+  "created_at": "2025-10-11T06:06:38.144269"
+}
+```
+
+## Status: ✅ RESOLVED
 
 ## Files Modified
 1. `backend/schemas.py` - Added validators to convert empty strings to None
