@@ -62,3 +62,39 @@ async def root():
 @app.get("/health")
 async def health_check():
     return {"status": "healthy"}
+
+@app.post("/api/admin/migrate-owner-registrations")
+async def migrate_owner_registrations():
+    """
+    One-time migration endpoint to fix owner_registrations table constraints.
+    This endpoint can be called once to update the database schema.
+    """
+    from sqlalchemy import text
+    try:
+        db = next(get_db())
+        migrations = [
+            "ALTER TABLE owner_registrations ALTER COLUMN co_owner_full_name DROP NOT NULL",
+            "ALTER TABLE owner_registrations ALTER COLUMN co_owner_block DROP NOT NULL",
+            "ALTER TABLE owner_registrations ALTER COLUMN co_owner_unit_number DROP NOT NULL",
+        ]
+        
+        results = []
+        for migration in migrations:
+            try:
+                db.execute(text(migration))
+                db.commit()
+                results.append({"sql": migration, "status": "success"})
+            except Exception as e:
+                results.append({"sql": migration, "status": "skipped", "error": str(e)})
+        
+        db.close()
+        return {
+            "status": "completed",
+            "message": "Migration executed successfully",
+            "results": results
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }
