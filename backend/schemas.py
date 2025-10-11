@@ -306,6 +306,20 @@ class OwnerRegistrationCreate(BaseModel):
     co_owner_unit_number: Optional[str] = None
     interested_to_buy: bool
 
+    @field_validator('co_owner_full_name', 'co_owner_unit_number')
+    @classmethod
+    def empty_string_to_none(cls, v):
+        if v == "":
+            return None
+        return v
+    
+    @field_validator('co_owner_block')
+    @classmethod
+    def empty_block_to_none(cls, v):
+        if v == "":
+            return None
+        return v
+
 class OwnerRegistrationResponse(BaseModel):
     id: int
     owner_full_name: str
