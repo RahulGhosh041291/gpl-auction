@@ -311,10 +311,9 @@ const Registration = () => {
                   value={formData.flat_number}
                   onChange={handleChange}
                   required
-                  maxLength="3"
-                  pattern="[0-9]{3}"
-                  placeholder="e.g., 101"
-                  title="Enter exactly 3 digits"
+                  pattern="[0-9]+"
+                  placeholder="e.g., 101, 1001"
+                  title="Enter only digits"
                 />
               </div>
             </div>

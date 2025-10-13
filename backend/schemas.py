@@ -117,8 +117,6 @@ class PlayerBase(BaseModel):
     def validate_flat_number(cls, v):
         if v and not v.isdigit():
             raise ValueError('Flat number must contain only digits')
-        if v and len(v) != 3:
-            raise ValueError('Flat number must be exactly 3 digits')
         return v
     
     @field_validator('amount')
@@ -265,8 +263,6 @@ class PlayerRegistration(BaseModel):
     def validate_flat_number(cls, v):
         if v and not v.isdigit():
             raise ValueError('Flat number must contain only digits')
-        if v and len(v) != 3:
-            raise ValueError('Flat number must be exactly 3 digits')
         return v
     
     @field_validator('amount')
