@@ -129,7 +129,7 @@ class Player(Base):
     
     # Residential details
     block_name = Column(Enum(BlockName), nullable=True)
-    flat_number = Column(String, nullable=True)  # 3 digit number stored as string
+    flat_number = Column(String, nullable=True)  # Digits only, no length restriction
     
     # Payment details
     payment_mode = Column(Enum(PaymentMode), nullable=True)
