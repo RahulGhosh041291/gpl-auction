@@ -98,17 +98,20 @@ async def start_auction(db: Session = Depends(get_db), current_user: User = Depe
     if active_auction:
         raise HTTPException(status_code=400, detail="An auction is already in progress")
     
-    # Get all available players
+    # Get all available players ordered by auction_order (nulls last), then by id
     available_players = db.query(PlayerModel).filter(
         PlayerModel.status == PlayerStatus.AVAILABLE,
         PlayerModel.registration_fee_paid == True
+    ).order_by(
+        PlayerModel.auction_order.asc().nulls_last(),
+        PlayerModel.id.asc()
     ).all()
     
     if not available_players:
         raise HTTPException(status_code=400, detail="No players available for auction")
     
-    # Choose a random player
-    first_player = random.choice(available_players)
+    # Get the first player from ordered list
+    first_player = available_players[0]
     
     # Create new auction
     auction = AuctionModel(
@@ -248,10 +251,13 @@ async def mark_player_sold(db: Session = Depends(get_db), current_user: User = D
     
     db.commit()
     
-    # Get next player
+    # Get next player ordered by auction_order (nulls last), then by id
     next_player = db.query(PlayerModel).filter(
         PlayerModel.status == PlayerStatus.AVAILABLE,
         PlayerModel.registration_fee_paid == True
+    ).order_by(
+        PlayerModel.auction_order.asc().nulls_last(),
+        PlayerModel.id.asc()
     ).first()
     
     # Broadcast player sold
@@ -315,11 +321,14 @@ async def mark_player_unsold(db: Session = Depends(get_db), current_user: User =
     player = db.query(PlayerModel).filter(PlayerModel.id == auction.current_player_id).first()
     player.status = PlayerStatus.UNSOLD
     
-    # Get next available player (excluding current)
+    # Get next available player (excluding current) ordered by auction_order
     available_players = db.query(PlayerModel).filter(
         PlayerModel.status.in_([PlayerStatus.AVAILABLE, PlayerStatus.UNSOLD]),
         PlayerModel.registration_fee_paid == True,
         PlayerModel.id != player.id
+    ).order_by(
+        PlayerModel.auction_order.asc().nulls_last(),
+        PlayerModel.id.asc()
     ).all()
     
     # Broadcast player unsold
@@ -332,8 +341,8 @@ async def mark_player_unsold(db: Session = Depends(get_db), current_user: User =
     })
     
     if available_players:
-        # Choose random next player
-        next_player = random.choice(available_players)
+        # Get the first player from ordered list
+        next_player = available_players[0]
         
         auction.current_player_id = next_player.id
         auction.current_bid_amount = next_player.base_price
@@ -567,3 +576,37 @@ async def reset_auction(
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=500, detail=f"Failed to reset auction: {str(e)}")
+
+@router.post("/set-auction-order")
+async def set_auction_order(
+    player_orders: List[dict],
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_admin_user)
+):
+    """
+    Set custom auction order for players (Admin only)
+    Expected format: [{"player_id": 1, "order": 1}, {"player_id": 2, "order": 2}, ...]
+    """
+    try:
+        updated_count = 0
+        for item in player_orders:
+            player_id = item.get("player_id")
+            order = item.get("order")
+            
+            if player_id is None or order is None:
+                continue
+                
+            player = db.query(PlayerModel).filter(PlayerModel.id == player_id).first()
+            if player:
+                player.auction_order = order
+                updated_count += 1
+        
+        db.commit()
+        
+        return {
+            "message": f"Auction order updated for {updated_count} players",
+            "updated_count": updated_count
+        }
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Failed to set auction order: {str(e)}")

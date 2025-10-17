@@ -98,3 +98,29 @@ async def migrate_owner_registrations():
             "status": "error",
             "message": str(e)
         }
+
+@app.post("/api/admin/migrate-add-auction-order")
+async def migrate_add_auction_order():
+    """
+    One-time migration endpoint to add auction_order column to players table.
+    This endpoint can be called once to update the database schema.
+    """
+    from sqlalchemy import text
+    try:
+        db = next(get_db())
+        migration = "ALTER TABLE players ADD COLUMN IF NOT EXISTS auction_order INTEGER"
+        
+        db.execute(text(migration))
+        db.commit()
+        db.close()
+        
+        return {
+            "status": "completed",
+            "message": "auction_order column added successfully",
+            "sql": migration
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e)
+        }

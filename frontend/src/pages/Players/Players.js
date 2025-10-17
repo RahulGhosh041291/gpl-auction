@@ -146,7 +146,8 @@ const Players = () => {
         email: editingPlayer.email,
         phone: editingPlayer.phone_number,
         role: editingPlayer.role,
-        base_price: editingPlayer.base_price
+        base_price: editingPlayer.base_price,
+        auction_order: editingPlayer.auction_order
       };
       
       // Add player_image if it was changed
@@ -407,6 +408,12 @@ const Players = () => {
                         <span className="price-value">₹{(player.sold_price / 1000).toFixed(0)}K</span>
                       </div>
                     )}
+                    {player.auction_order && (
+                      <div className="price-info auction-order">
+                        <span className="price-label">Auction Order</span>
+                        <span className="price-value">#{player.auction_order}</span>
+                      </div>
+                    )}
                   </div>
 
                   {isAdmin && (
@@ -541,6 +548,20 @@ const Players = () => {
                   onChange={(e) => setEditingPlayer({...editingPlayer, base_price: parseInt(e.target.value)})}
                   required
                 />
+              </div>
+
+              <div className="form-group">
+                <label>Auction Order (Optional)</label>
+                <input
+                  type="number"
+                  value={editingPlayer.auction_order || ''}
+                  onChange={(e) => setEditingPlayer({...editingPlayer, auction_order: e.target.value ? parseInt(e.target.value) : null})}
+                  placeholder="Leave empty for default order"
+                  min="1"
+                />
+                <small style={{color: '#94a3b8', fontSize: '12px', marginTop: '4px', display: 'block'}}>
+                  Set custom order for auction. Lower numbers appear first.
+                </small>
               </div>
 
               <div className="modal-actions">

@@ -460,6 +460,12 @@
   font-weight: 600;
 }
 
+.team-max-bid {
+  font-size: 11px;
+  color: #10b981;
+  font-weight: 600;
+}
+
 .team-players {
   font-size: 14px;
   color: #6366f1;

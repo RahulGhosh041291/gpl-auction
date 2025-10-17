@@ -627,7 +627,8 @@ const LiveAuction = () => {
                     />
                     <div className="team-item-info">
                       <span className="team-name">{team.short_name}</span>
-                      <span className="team-budget">{formatCurrency(team.remaining_budget)}</span>
+                      <span className="team-budget">₹{formatCurrency(team.remaining_budget)}</span>
+                      <span className="team-max-bid">Max: {formatCurrency(team.max_bid_limit || 0)}</span>
                     </div>
                     <span className="team-players">{team.players_count}/15</span>
                   </div>

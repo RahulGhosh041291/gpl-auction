@@ -148,6 +148,7 @@ class Player(Base):
     base_price = Column(Float, default=10000.0)  # 10,000 INR
     sold_price = Column(Float, nullable=True)
     team_id = Column(Integer, ForeignKey("teams.id"), nullable=True)
+    auction_order = Column(Integer, nullable=True)  # Custom order for auction sequence
     
     # Registration
     registration_fee_paid = Column(Boolean, default=False)

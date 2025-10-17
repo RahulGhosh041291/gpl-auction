@@ -12,9 +12,10 @@ router = APIRouter()
 async def get_all_players(
     status: Optional[PlayerStatus] = None,
     role: Optional[PlayerRole] = None,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_admin_user)
 ):
-    """Get all players with optional filters"""
+    """Get all players with optional filters (Admin only)"""
     query = db.query(PlayerModel)
     
     if status:

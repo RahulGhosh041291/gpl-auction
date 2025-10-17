@@ -147,6 +147,7 @@ class PlayerUpdate(BaseModel):
     photo_url: Optional[str] = None
     player_image: Optional[str] = None
     base_price: Optional[float] = None
+    auction_order: Optional[int] = None
 
 class Player(PlayerBase):
     id: int
@@ -161,6 +162,7 @@ class Player(PlayerBase):
     base_price: float
     sold_price: Optional[float] = None
     team_id: Optional[int] = None
+    auction_order: Optional[int] = None
     registration_fee_paid: bool
     photo_url: Optional[str] = None
     player_image: Optional[str] = None

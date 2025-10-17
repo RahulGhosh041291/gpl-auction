@@ -37,7 +37,7 @@ const Navbar = () => {
   const navItems = [
     { path: '/', label: 'Home', icon: <FaTrophy /> },
     { path: '/teams', label: 'Teams', icon: <FaUsers /> },
-    { path: '/players', label: 'Players', icon: <FaUsers /> },
+    { path: '/players', label: 'Players', icon: <FaUsers />, adminOnly: true },
     { path: '/auction', label: 'Live Auction', icon: <FaGavel /> },
     { path: '/registration', label: 'Player Registration', icon: <FaUserPlus /> },
     { path: '/owner-registration', label: 'Owner Registration', icon: <FaUserShield /> },
@@ -55,17 +55,24 @@ const Navbar = () => {
         </Link>
 
         <div className={`navbar-menu ${isMenuOpen ? 'active' : ''}`}>
-          {navItems.map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              className={`navbar-item ${location.pathname === item.path ? 'active' : ''}`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              {item.icon}
-              <span>{item.label}</span>
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            // Hide admin-only items from non-admin users
+            if (item.adminOnly && userRole !== 'admin') {
+              return null;
+            }
+            
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`navbar-item ${location.pathname === item.path ? 'active' : ''}`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {item.icon}
+                <span>{item.label}</span>
+              </Link>
+            );
+          })}
 
           {isLoggedIn ? (
             <div className="navbar-user-section">

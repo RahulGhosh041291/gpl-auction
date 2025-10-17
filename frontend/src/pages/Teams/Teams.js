@@ -178,6 +178,14 @@ const Teams = () => {
                   </div>
                 </div>
 
+                <div className="team-stat">
+                  <FaMoneyBillWave className="stat-icon" />
+                  <div>
+                    <span className="stat-label">Max Bid</span>
+                    <span className="stat-value">{formatCurrency(team.max_bid_limit || 0)}</span>
+                  </div>
+                </div>
+
                 <div className="budget-bar">
                   <div
                     className="budget-bar-fill"

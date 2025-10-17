@@ -34,7 +34,11 @@ function App() {
               <Profile />
             </ProtectedRoute>
           } />
-          <Route path="/players" element={<Players />} />
+          <Route path="/players" element={
+            <ProtectedRoute requireAdmin={true}>
+              <Players />
+            </ProtectedRoute>
+          } />
           <Route path="/players/:id" element={<PlayerProfile />} />
           <Route path="/teams" element={<Teams />} />
           <Route path="/teams/:id" element={<Teams />} />
