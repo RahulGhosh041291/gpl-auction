@@ -321,9 +321,10 @@ async def mark_player_unsold(db: Session = Depends(get_db), current_user: User =
     player = db.query(PlayerModel).filter(PlayerModel.id == auction.current_player_id).first()
     player.status = PlayerStatus.UNSOLD
     
-    # Get next available player (excluding current) ordered by auction_order
+    # Get next available player (excluding current and other unsold) ordered by auction_order
+    # Only get AVAILABLE players, not UNSOLD ones to avoid re-auctioning unsold players
     available_players = db.query(PlayerModel).filter(
-        PlayerModel.status.in_([PlayerStatus.AVAILABLE, PlayerStatus.UNSOLD]),
+        PlayerModel.status == PlayerStatus.AVAILABLE,
         PlayerModel.registration_fee_paid == True,
         PlayerModel.id != player.id
     ).order_by(
