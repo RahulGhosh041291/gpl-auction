@@ -42,7 +42,7 @@ manager = ConnectionManager()
 
 def calculate_max_bid_limit(team: TeamModel, db: Session) -> float:
     """Calculate maximum bid limit for a team"""
-    MINIMUM_PLAYERS = 10
+    MINIMUM_PLAYERS = 12
     BASE_PLAYER_PRICE = 10000
     
     players_still_needed = MINIMUM_PLAYERS - team.players_count
@@ -515,7 +515,7 @@ async def reset_auction(
     """
     Master reset for the auction (Admin only).
     - Marks all players as AVAILABLE
-    - Resets team purses to 5 lakh (500000)
+    - Resets team purses to 10 lakh (1000000)
     - Clears all player-team assignments
     - Resets auction status
     """
@@ -535,7 +535,8 @@ async def reset_auction(
         team_count = 0
         
         for team in all_teams:
-            team.remaining_budget = 500000  # 5 lakh
+            team.remaining_budget = 1000000  # 10 lakh
+            team.budget = 1000000
             team.players_count = 0
             team_count += 1
         
@@ -570,7 +571,7 @@ async def reset_auction(
             "details": {
                 "players_reset": reset_count,
                 "teams_reset": team_count,
-                "team_purse_reset_to": "₹5,00,000"
+                "team_purse_reset_to": "₹10,00,000"
             }
         }
     

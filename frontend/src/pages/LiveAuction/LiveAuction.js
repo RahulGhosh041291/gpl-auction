@@ -274,7 +274,7 @@ const LiveAuction = () => {
     const confirmMessage = '🚨 MASTER RESET 🚨\n\n' +
       'This will:\n' +
       '• Mark ALL players as AVAILABLE\n' +
-      '• Reset ALL team purses to ₹5,00,000\n' +
+      '• Reset ALL team purses to ₹10,00,000\n' +
       '• Clear all player-team assignments\n' +
       '• Reset auction status\n\n' +
       'This action CANNOT be undone!\n\n' +

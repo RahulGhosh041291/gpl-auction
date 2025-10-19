@@ -128,7 +128,7 @@ const Teams = () => {
           animate={{ opacity: 1, y: 0 }}
         >
           <h1>GPL Season 2 Teams</h1>
-          <p>12 teams competing for glory with ₹5 Lakh budget each</p>
+          <p>12 teams competing for glory with ₹10 Lakh budget each</p>
         </motion.div>
 
         <div className="teams-grid">
@@ -196,9 +196,9 @@ const Teams = () => {
                   />
                 </div>
 
-                {team.players_count < 10 && (
+                {team.players_count < 12 && (
                   <div className="team-warning">
-                    <span>⚠️ Min {10 - team.players_count} more players needed</span>
+                    <span>⚠️ Min {12 - team.players_count} more players needed</span>
                   </div>
                 )}
 

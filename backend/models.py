@@ -86,8 +86,8 @@ class Team(Base):
     team_logo = Column(Text, nullable=True)  # Base64 encoded team logo
     color_primary = Column(String, nullable=True)
     color_secondary = Column(String, nullable=True)
-    budget = Column(Float, default=500000.0)  # 5 lakhs INR
-    remaining_budget = Column(Float, default=500000.0)
+    budget = Column(Float, default=1000000.0)  # 10 lakhs INR
+    remaining_budget = Column(Float, default=1000000.0)
     players_count = Column(Integer, default=0)
     
     # Team registration details

@@ -1,4 +1,8 @@
-# 🏏 GPL Auction - Galaxia Premier League
+# 🏏 GPL Auction### 🏆 Team Management
+- Create and manage 12 teams with ₹10 lakh budget each
+- **Custom team logo upload** with preview
+- Real-time budget tracking
+- Team roster managementlaxia Premier League
 
 A full-stack IPL-style cricket auction application with React.js frontend and FastAPI backend.
 
@@ -30,7 +34,7 @@ A full-stack IPL-style cricket auction application with React.js frontend and Fa
 - **Authentication-required bidding** - Must login to place bids
 - **Admin-only auction controls** - Start, reset, random player
 - Real-time bidding with automatic highest bidder detection
-- Smart bid limits ensuring minimum 10 players per team
+- Smart bid limits ensuring minimum 12 players per team
 - Mark players as sold/unsold
 - Budget validation
 
@@ -166,8 +170,8 @@ The application will open at `http://localhost:3000`
 ### Key Features
 
 #### Smart Bid Limits
-- Each team must maintain enough budget for minimum 10 players
-- System calculates max bid limit: `remaining_budget - (9 - current_players) * 10000`
+- Each team must maintain enough budget for minimum 12 players
+- System calculates max bid limit: `remaining_budget - (11 - current_players) * 10000`
 - Prevents teams from overbidding and failing to complete squad
 
 #### Real-time Updates

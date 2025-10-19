@@ -264,10 +264,10 @@ const TeamRegistration = () => {
 
             <div className="team-registration-info">
               <div className="info-item">
-                <strong>Total Budget:</strong> ₹5,00,000
+                <strong>Total Budget:</strong> ₹10,00,000
               </div>
               <div className="info-item">
-                <strong>Minimum Players:</strong> 10
+                <strong>Minimum Players:</strong> 12
               </div>
               <div className="info-item">
                 <strong>Maximum Players:</strong> 15

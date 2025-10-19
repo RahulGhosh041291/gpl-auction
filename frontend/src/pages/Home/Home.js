@@ -167,7 +167,7 @@ const Home = () => {
           <motion.div className="feature-card" variants={itemVariants}>
             <div className="feature-number">03</div>
             <h3>Auction Day</h3>
-            <p>12 teams bid for players with ₹5 lakh budget. Base price starts at ₹10,000.</p>
+            <p>12 teams bid for players with ₹10 lakh budget. Base price starts at ₹10,000.</p>
           </motion.div>
 
           <motion.div className="feature-card" variants={itemVariants}>
