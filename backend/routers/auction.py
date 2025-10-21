@@ -160,17 +160,31 @@ async def place_bid(bid: schemas.BidCreate, db: Session = Depends(get_db), curre
     # Calculate max bid limit
     max_bid = calculate_max_bid_limit(team, db)
     
+    # Get current player to check base price
+    player = db.query(PlayerModel).filter(PlayerModel.id == auction.current_player_id).first()
+    
     # Validate bid amount
-    if bid.bid_amount < auction.current_bid_amount + 5000:
-        raise HTTPException(
-            status_code=400, 
-            detail=f"Bid must be at least {auction.current_bid_amount + 5000} INR"
-        )
+    # Allow first bid at base price, subsequent bids must increment by 5000
+    if auction.current_bidding_team_id is None:
+        # First bid - must be at least base price
+        if bid.bid_amount < player.base_price:
+            raise HTTPException(
+                status_code=400,
+                detail=f"First bid must be at least base price: ₹{player.base_price}"
+            )
+    else:
+        # Subsequent bids - must increment by at least 5000
+        if bid.bid_amount < auction.current_bid_amount + 5000:
+            raise HTTPException(
+                status_code=400, 
+                detail=f"Bid must be at least ₹{auction.current_bid_amount + 5000}"
+            )
     
     if bid.bid_amount > max_bid:
+        players_needed = 12 - team.players_count
         raise HTTPException(
             status_code=400, 
-            detail=f"Bid exceeds maximum limit of {max_bid} INR. You need to reserve money for {10 - team.players_count} more players."
+            detail=f"Bid exceeds maximum limit of ₹{max_bid}. You need to reserve money for {players_needed} more player(s)."
         )
     
     if bid.bid_amount > team.remaining_budget:
