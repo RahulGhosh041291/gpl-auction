@@ -196,7 +196,6 @@ const Teams = () => {
                   />
                 </div>
 
-                                </div>
                 {team.players_count < 13 && (
                   <div className="team-warning">
                     <span>⚠️ Min {13 - team.players_count} more players needed</span>
