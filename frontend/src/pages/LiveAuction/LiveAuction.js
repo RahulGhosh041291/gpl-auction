@@ -406,98 +406,99 @@ const LiveAuction = () => {
 
         <div className="auction-content">
           <div className="main-auction-area">
-            <AnimatePresence mode="wait">
-              {currentPlayer && (
-                <motion.div
-                  key={currentPlayer.id}
-                  className="current-player-card"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <div className="player-spotlight">
-                    <div className="player-avatar-auction">
-                      {(currentPlayer.player_image || currentPlayer.photo_url) ? (
-                        <img src={currentPlayer.player_image || currentPlayer.photo_url} alt={currentPlayer.name} />
-                      ) : (
-                        <FaUser />
-                      )}
+            <div className="player-and-bid-container">
+              <AnimatePresence mode="wait">
+                {currentPlayer && (
+                  <motion.div
+                    key={currentPlayer.id}
+                    className="current-player-card"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <div className="player-spotlight">
+                      <div className="player-avatar-auction">
+                        {(currentPlayer.player_image || currentPlayer.photo_url) ? (
+                          <img src={currentPlayer.player_image || currentPlayer.photo_url} alt={currentPlayer.name} />
+                        ) : (
+                          <FaUser />
+                        )}
+                      </div>
+                      <div className="player-glow"></div>
                     </div>
-                    <div className="player-glow"></div>
-                  </div>
 
-                  <div className="player-auction-info">
-                    <div className="player-badges-auction">
-                      {currentPlayer.has_cricheroes_data && (
-                        <span className="verified-badge-auction">
-                          <FaCheckCircle /> Verified
+                    <div className="player-auction-info">
+                      <div className="player-badges-auction">
+                        {currentPlayer.has_cricheroes_data && (
+                          <span className="verified-badge-auction">
+                            <FaCheckCircle /> Verified
+                          </span>
+                        )}
+                        <span className="role-badge-auction">
+                          {currentPlayer.role.replace('_', ' ')}
                         </span>
+                      </div>
+
+                      <h2 className="player-name-auction">{currentPlayer.name}</h2>
+                      
+                      {currentPlayer.has_cricheroes_data ? (
+                        <div className="player-quick-stats">
+                          <div className="quick-stat">
+                            <span>Matches</span>
+                            <strong>{currentPlayer.matches_played}</strong>
+                          </div>
+                          <div className="quick-stat">
+                            <span>Runs</span>
+                            <strong>{currentPlayer.runs_scored}</strong>
+                          </div>
+                          <div className="quick-stat">
+                            <span>Wickets</span>
+                            <strong>{currentPlayer.wickets_taken}</strong>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="new-player-indicator">
+                          <FaTimesCircle /> New Player
+                        </div>
                       )}
-                      <span className="role-badge-auction">
-                        {currentPlayer.role.replace('_', ' ')}
-                      </span>
+
+                      <div className="current-bid-display">
+                        <span className="bid-label">Current Bid</span>
+                        <motion.span
+                          className="bid-amount"
+                          key={auction?.current_bid_amount}
+                          initial={{ scale: 1.2 }}
+                          animate={{ scale: 1 }}
+                          transition={{ type: 'spring', stiffness: 300 }}
+                        >
+                          {formatCurrency(auction?.current_bid_amount || currentPlayer.base_price)}
+                        </motion.span>
+                      </div>
+
+                      {auction?.current_bidding_team_id && (
+                        <div className="leading-team">
+                          <span>Leading: </span>
+                          <strong>
+                            {teams.find(t => t.id === auction.current_bidding_team_id)?.name}
+                          </strong>
+                        </div>
+                      )}
                     </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
-                    <h2 className="player-name-auction">{currentPlayer.name}</h2>
-                    
-                    {currentPlayer.has_cricheroes_data ? (
-                      <div className="player-quick-stats">
-                        <div className="quick-stat">
-                          <span>Matches</span>
-                          <strong>{currentPlayer.matches_played}</strong>
-                        </div>
-                        <div className="quick-stat">
-                          <span>Runs</span>
-                          <strong>{currentPlayer.runs_scored}</strong>
-                        </div>
-                        <div className="quick-stat">
-                          <span>Wickets</span>
-                          <strong>{currentPlayer.wickets_taken}</strong>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="new-player-indicator">
-                        <FaTimesCircle /> New Player
-                      </div>
-                    )}
-
-                    <div className="current-bid-display">
-                      <span className="bid-label">Current Bid</span>
-                      <motion.span
-                        className="bid-amount"
-                        key={auction?.current_bid_amount}
-                        initial={{ scale: 1.2 }}
-                        animate={{ scale: 1 }}
-                        transition={{ type: 'spring', stiffness: 300 }}
-                      >
-                        {formatCurrency(auction?.current_bid_amount || currentPlayer.base_price)}
-                      </motion.span>
-                    </div>
-
-                    {auction?.current_bidding_team_id && (
-                      <div className="leading-team">
-                        <span>Leading: </span>
-                        <strong>
-                          {teams.find(t => t.id === auction.current_bidding_team_id)?.name}
-                        </strong>
-                      </div>
-                    )}
+              <div className="bidding-panel">
+                <h3>Place Bid</h3>
+                
+                {!isAuthenticated && (
+                  <div className="alert alert-warning">
+                    🔒 Please <strong>login</strong> to place bids and participate in the auction.
                   </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            <div className="bidding-panel">
-              <h3>Place Bid</h3>
-              
-              {!isAuthenticated && (
-                <div className="alert alert-warning">
-                  🔒 Please <strong>login</strong> to place bids and participate in the auction.
-                </div>
-              )}
-              
-              {error && (
+                )}
+                
+                {error && (
                 <div className="alert alert-error">
                   {error}
                 </div>
@@ -612,6 +613,7 @@ const LiveAuction = () => {
                 </button>
                 <p className="reset-warning">⚠️ Resets all players & teams to initial state</p>
               </div>
+            </div>
             </div>
           </div>
 
