@@ -8,7 +8,7 @@ import schemas
 
 router = APIRouter()
 
-MINIMUM_PLAYERS = 12
+MINIMUM_PLAYERS = 13
 BASE_PLAYER_PRICE = 10000
 
 def calculate_max_bid_limit(team: TeamModel) -> float:

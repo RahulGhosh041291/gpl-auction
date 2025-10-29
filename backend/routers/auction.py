@@ -42,7 +42,7 @@ manager = ConnectionManager()
 
 def calculate_max_bid_limit(team: TeamModel, db: Session) -> float:
     """Calculate maximum bid limit for a team"""
-    MINIMUM_PLAYERS = 12
+    MINIMUM_PLAYERS = 13
     BASE_PLAYER_PRICE = 10000
     
     players_still_needed = MINIMUM_PLAYERS - team.players_count
@@ -181,7 +181,7 @@ async def place_bid(bid: schemas.BidCreate, db: Session = Depends(get_db), curre
             )
     
     if bid.bid_amount > max_bid:
-        players_needed = 12 - team.players_count
+        players_needed = 13 - team.players_count
         raise HTTPException(
             status_code=400, 
             detail=f"Bid exceeds maximum limit of ₹{max_bid}. You need to reserve money for {players_needed} more player(s)."

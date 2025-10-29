@@ -270,7 +270,7 @@ const TeamRegistration = () => {
                 <strong>Minimum Players:</strong> 12
               </div>
               <div className="info-item">
-                <strong>Maximum Players:</strong> 15
+                <strong>Minimum Players:</strong> 13
               </div>
             </div>
 

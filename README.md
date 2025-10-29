@@ -34,7 +34,9 @@ A full-stack IPL-style cricket auction application with React.js frontend and Fa
 - **Authentication-required bidding** - Must login to place bids
 - **Admin-only auction controls** - Start, reset, random player
 - Real-time bidding with automatic highest bidder detection
-- Smart bid limits ensuring minimum 12 players per team
+- Team management with ₹10 lakh budget each
+- Smart bid limits ensuring minimum 13 players per team
+- Live auction with real-time updates via WebSocket
 - Mark players as sold/unsold
 - Budget validation
 
@@ -170,8 +172,8 @@ The application will open at `http://localhost:3000`
 ### Key Features
 
 #### Smart Bid Limits
-- Each team must maintain enough budget for minimum 12 players
-- System calculates max bid limit: `remaining_budget - (11 - current_players) * 10000`
+- Each team must maintain enough budget for minimum 13 players
+- System calculates max bid limit: `remaining_budget - (12 - current_players) * 10000`
 - Prevents teams from overbidding and failing to complete squad
 
 #### Real-time Updates
